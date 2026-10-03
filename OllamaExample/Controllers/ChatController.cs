@@ -9,18 +9,27 @@ namespace OllamaExample.Controllers
     [ApiController]
     public class ChatController : ControllerBase
     {
-        private readonly ILLMService _llmservice;
-        public ChatController(ILLMService _llmservice)
+        private readonly IConversationService _conversationService;
+        public ChatController(IConversationService conversationService)
         {
-            this._llmservice = _llmservice;
+            _conversationService = conversationService;
+
         }
-    
         [HttpPost]
         public async Task<IActionResult> Chat([FromBody] ChatRequest request)
         {
-            var result = await this._llmservice.GenerateAsync(request.Message);
+            if (string.IsNullOrWhiteSpace(request.UserId))
+            {
+                return BadRequest("UserId is required.");
+            }
+            if (string.IsNullOrWhiteSpace(request.Message))
+            {
+                return BadRequest("Message is required.");
+            }
+            var result = await _conversationService.SendMessageAsync(request);
             return Ok(result);
         }
+
 
     }
 }

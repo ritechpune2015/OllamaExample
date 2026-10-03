@@ -20,7 +20,7 @@ namespace OllamaExample.Controllers
         [FromBody] ChatRequest request)
         {
             var response =
-                await _conservice.SendMessageAsync(request.Message);
+                await _conservice.SendMessageAsync(request);
 
             return Ok(new
             {

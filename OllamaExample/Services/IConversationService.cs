@@ -1,8 +1,9 @@
-﻿namespace OllamaExample.Services
+﻿using OllamaExample.Models;
+
+namespace OllamaExample.Services
 {
     public interface IConversationService
     {
-        Task<string> SendMessageAsync(
-            string userMessage);
+        Task<ChatResponse> SendMessageAsync(ChatRequest request);
     }
 }
